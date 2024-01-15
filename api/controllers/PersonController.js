@@ -69,6 +69,86 @@ class PersonController {
       return res.status(500).json(error.message);
     }
   }
+
+  // ==============================================================================================
+  // ========================================= MATRICULAS =========================================
+
+  // ========== Get Matricula pro ID ==========
+
+  static async getRegistrationId(req, res) {
+    const { studentId, registrationId } = req.params;
+    try {
+      const oneRegistration = await database.Matriculas.findOne({
+        where: { id: Number(registrationId), student_id: Number(studentId) },
+      });
+      return res.status(200).json(oneRegistration);
+    } catch (error) {
+      return res.status(500).json(error.message);
+    }
+  }
+
+  // ========== Get todas matriculas de uma pessoa ==========
+
+  static async getRegistrationForPerson(req, res) {
+    const { studentId } = req.params;
+    try {
+      const allRegistration = await database.Matriculas.findAll({
+        where: { student_id: Number(studentId) },
+      });
+      return res.status(200).json(allRegistration);
+    } catch (error) {
+      return res.status(500).json(error.message);
+    }
+  }
+
+  // ========== Create Matricula ==========
+
+  static async createRegistration(req, res) {
+    const { student_id } = req.params;
+    const newRegistration = { ...req.body, student_id: Number(student_id) };
+    try {
+      const newRegistrationCreated = await database.Matriculas.create(
+        newRegistration
+      );
+      return res.status(200).json(newRegistrationCreated);
+    } catch (error) {
+      return res.status(500).json(error.message);
+    }
+  }
+
+  // ========== Update Matricula ==========
+
+  static async updateRegistration(req, res) {
+    const { studentId, registrationId } = req.params;
+    const updateRegistration = req.body;
+    try {
+      await database.Matriculas.update(updateRegistration, {
+        where: { id: Number(registrationId), student_id: Number(studentId) },
+      });
+      const registrationUpdated = await database.Matriculas.findOne({
+        where: { id: Number(registrationId) },
+      });
+      return res.status(200).json(registrationUpdated);
+    } catch (error) {
+      return res.status(500).json(error.message);
+    }
+  }
+
+  // ========== Delete Matricula ==========
+
+  static async deleteRegistration(req, res) {
+    const { studentId, registrationId } = req.params;
+    try {
+      await database.Matriculas.destroy({
+        where: { id: Number(registrationId), student_id: Number(studentId) },
+      });
+      return res
+        .status(200)
+        .json({ mensagem: `Matricula com id ${registrationId} deletado` });
+    } catch (error) {
+      return res.status(500).json(error.message);
+    }
+  }
 }
 
 module.exports = PersonController;

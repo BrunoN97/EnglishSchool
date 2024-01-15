@@ -1,0 +1,11 @@
+Node ORM com Sequelize
+
+Comandos sequelize 
+
+npx sequelize-cli model:create --name Pessoas --attributes nome:string,ativo:boolean,email:string,role:string ----> CRIA MODELOS DAS TABELAS NO BANCO DE DADOS
+
+npx sequelize-cli db:migrate ----> EXECUTA OS MODELOS CRIADOS DO BANCO DE DADOS
+
+npx sequelize-cli seed:generate --name demo-matriculas ----> CRIA ARQUIVO SEEDERS PARA POPULAÇÃO DAS TABELAS 
+
+npx sequelize-cli db:seed:all ----> EXECUTA O SEED CRIADO (POPULA TABELA E ETC...)
